@@ -13,7 +13,7 @@ contract TodoList{
     mapping(uint => Task) public tasks; //mapping of tasks
 
 event TaskCreated(uint id, string content,bool completed);
-
+event TaskCompleted(uint id,bool completed);
 constructor() public{
     createTask("gf");
 }
@@ -23,5 +23,9 @@ constructor() public{
         tasks[tasksCount]  = Task(tasksCount,_content, false);
         emit TaskCreated(tasksCount,_content,false);
     }
+function toggleCompleted(uint _id) public{
+    tasks[_id].completed = !tasks[_id].completed;
+    emit TaskCompleted(_id,tasks[_id].completed);
+}
 
 }
