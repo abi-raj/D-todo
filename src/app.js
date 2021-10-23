@@ -7,7 +7,7 @@ App = {
         await App.loadAccount()
         await App.loadContract()
         await App.render()
-        await App.renderTasks()
+
     },
 
     // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
@@ -73,7 +73,7 @@ App = {
         }
 
         // // Update app loading state
-         App.setLoading(true)
+        App.setLoading(true)
 
         // Render Account
         //console.log(App.account);
@@ -81,7 +81,7 @@ App = {
         console.log(document.getElementById('account').innerHTML)
 
         // Render Tasks
-         await App.renderTasks()
+        await App.renderTasks()
 
         // // Update loading state
         App.setLoading(false)
@@ -90,9 +90,9 @@ App = {
     renderTasks: async () => {
         // Load the total task count from the blockchain
         const taskCount = await App.todoList.tasksCount()
-        
+
         const $taskTemplate = $('.taskTemplate')
-        // console.log(taskCount.toNumber())
+        console.log(taskCount.toNumber())
         // Render out each task with a new task template
         for (var i = 1; i <= taskCount.toNumber(); i++) {
             // Fetch the task data from the blockchain
@@ -100,7 +100,7 @@ App = {
             const taskId = task[0].toNumber()
             const taskContent = task[1]
             const taskCompleted = task[2]
-
+            console.log(taskContent);
             // Create the html for the task
             const $newTaskTemplate = $taskTemplate.clone()
             $newTaskTemplate.find('.content').html(taskContent)
@@ -124,14 +124,18 @@ App = {
     createTask: async () => {
         App.setLoading(true)
         const content = $('#newTask').val()
-        await App.todoList.createTask(content,{from: App.account})
+        await App.todoList.createTask(content, {
+            from: App.account
+        })
         window.location.reload()
     },
 
     toggleCompleted: async (e) => {
         App.setLoading(true)
         const taskId = e.target.name
-        await App.todoList.toggleCompleted(taskId,{from: App.account})
+        await App.todoList.toggleCompleted(taskId, {
+            from: App.account
+        })
         window.location.reload()
     },
 
