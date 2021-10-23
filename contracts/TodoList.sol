@@ -12,6 +12,8 @@ contract TodoList{
 
     mapping(uint => Task) public tasks; //mapping of tasks
 
+event TaskCreated(uint id, string content,bool completed);
+
 constructor() public{
     createTask("gf");
 }
@@ -19,6 +21,7 @@ constructor() public{
     function createTask(string memory _content)public  {
         tasksCount++; 
         tasks[tasksCount]  = Task(tasksCount,_content, false);
+        emit TaskCreated(tasksCount,_content,false);
     }
 
 }
